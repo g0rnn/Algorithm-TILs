@@ -11,9 +11,11 @@ public class Main {
     static double[] percentage = {0.05, 0.02, 0, 0.02};
     static double[] percentage2 = {0, 0.1, 0.07, 0.01, 0, 0.01, 0.07, 0.1};
     static boolean[][] visited;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         input();
-        System.out.println(explodeSand());
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        bw.write(String.valueOf(explodeSand()));
+        bw.flush();
     }
 
     private static int explodeSand() {
@@ -99,15 +101,18 @@ public class Main {
     // 왼쪽으로 불면 y가 양옆으로 이동
     // 아래로 불면 x가 양옆으로 이동
 
-    private static void input() {
-        Scanner sc = new Scanner(System.in);
-        N = sc.nextInt();
+    private static void input() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        
+        N = Integer.parseInt(br.readLine());
         map = new int[N + 1][N + 1];
         visited = new boolean[N + 1][N + 1];
 
         for (int i = 1; i <= N; i++) {
+            st = new StringTokenizer(br.readLine());
             for (int j = 1; j <= N; j++) {
-                map[i][j] = sc.nextInt();
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
     }
