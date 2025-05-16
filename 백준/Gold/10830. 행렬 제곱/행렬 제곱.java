@@ -37,7 +37,7 @@ public class Main {
 
     private static int[][] squareMatrix() {
         // IDX 0: (matrix)^0, IDX 1: (matrix)^1, IDX n: (matrix)^n
-        int[][][] squared = new int[100][N][N]; // log2(10^12) = 36
+        int[][][] squared = new int[64][N][N]; // log2(10^12) = 36
         initSquare(squared);
 
         int powIdx = 0;
@@ -48,35 +48,15 @@ public class Main {
 
         // 비트 연산을 통해 B제곱을 구함
         // 현재 비트가 1인 경우에만 answer에 곱하여 (matrix)^n을 만든다
-        long b = B;
-        while (b > 0) {
-            if ((b & 1) == 1) {
+        while (B > 0) {
+            if ((B & 1) == 1) {
                 answer = multiplyMatrix(answer, squared[powIdx]);
             }
             powIdx += 1;
-            b >>= 1;
+            B >>= 1;
         }
         return answer;
     }
-//    private static int[][] squareMatrix() {
-//        int maxBits = 64 - Long.numberOfLeadingZeros(B);
-//        int[][][] squared = new int[maxBits + 1][N][N];
-//        initSquare(squared);
-//
-//        int[][] answer = new int[N][N];
-//        for (int i = 0; i < N; i++) answer[i][i] = 1;
-//
-//        long target = B;
-//        int powIdx = 0;
-//        while (target > 0) {
-//            if ((target & 1) == 1) {
-//                answer = multiplyMatrix(answer, squared[powIdx]);
-//            }
-//            powIdx++;
-//            target >>= 1;
-//        }
-//        return answer;
-//    }
 
     // O(1) = 25
     private static int[][] multiplyMatrix(int[][] mat, int[][] mat2) {
@@ -104,8 +84,8 @@ public class Main {
     private static void input() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st. nextToken());
-        B = Long.parseLong(st. nextToken());
+        N = Integer.parseInt(st.nextToken());
+        B = Long.parseLong(st.nextToken());
 
         matrix = new int[N][N];
         for (int i = 0; i < N; i++) {
