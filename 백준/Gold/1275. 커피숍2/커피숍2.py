@@ -32,15 +32,15 @@ def query(node, start, end, l, r):
 
 # 입력
 n, q = map(int, input().split())
-nums = list(map(int, input().split())) ## int는 가변 정수라 long 보다도 커질 수 있음.. 아니 걍 크기제한이 없음
+nums = [0] + list(map(int, input().split())) ## int는 가변 정수라 long 보다도 커질 수 있음.. 아니 걍 크기제한이 없음
 tree = [0] * (4 * n)
 
-init(1, 0, n-1)
+init(1, 1, n)
 for _ in range(q):
     x, y, a, b = map(int, input().split())
-    l = min(x, y) - 1
-    r = max(x, y) - 1
+    l = min(x, y)
+    r = max(x, y)
     
-    print(query(1, 0, n - 1, l, r))
-    update(1, 0, n-1, a-1, b)
+    print(query(1, 1, n, l, r))
+    update(1, 1, n, a, b)
 
