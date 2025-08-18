@@ -3,58 +3,62 @@ import java.util.*;
 class Solution {
     
     static int[][] offset = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}}; // 동 남 서 북
+    static int[] cols;
+    static boolean[][] visited;
+    
     public int solution(int[][] land) {
-        int answer = 0;
-        int[] maxOil = new int[501];
-        boolean[][] visited = new boolean[land.length][land[0].length];
+        int n = land.length; // row
+        int m = land[0].length; // col
+        cols = new int[m];
+        visited = new boolean[n][m];
         
-        for (int line = 0; line < land[0].length; line++) {
-            for (int depth = 0; depth < land.length; depth++) {
-                bfs(land, maxOil, visited, line, depth);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                // 석유를 뽑고 cols에 저장함.
+                extract(j, i, land); // x, y
             }
-            
-            if (maxOil[line] > answer) answer = maxOil[line];
         }
         
+        int answer = 0;
+        for (int i = 0; i < m; i++) {
+            if (answer < cols[i]) answer = cols[i];
+        }
         return answer;
     }
     
-    private void bfs(int[][] land, int[] maxOil, boolean[][] visited, int x, int y) {
-        if (visited[y][x] || land[y][x] == 0) return;
-        
-        int oil = 1;
-        int xMax = land[0].length;
-        int yMax = land.length;
-        Queue<int[]> q = new ArrayDeque<>();
-        Set<Integer> visitedLine = new HashSet<>();
-        
+    private static void extract(int x, int y, int[][] land) {
         if (visited[y][x]) return;
+        if (land[y][x] == 0) return;
         
-        q.offer(new int[]{x, y});
+        Set<Integer> visitedCols = new HashSet<>();
+        Queue<int[]> q = new ArrayDeque<>();
+        int n = land.length;
+        int m = land[0].length;
+        int count = 1;
+        
         visited[y][x] = true;
-        visitedLine.add(x);
+        q.add(new int[]{x, y});
+        visitedCols.add(x);
         
-        while(!q.isEmpty()) {
+        while (!q.isEmpty()) {
             int cx = q.peek()[0];
             int cy = q.poll()[1];
             
-            if (land[cy][cx] == 0) continue;
-            
-            for (int dir = 0; dir < 4; dir++) {
-                int nx = cx + offset[dir][0];
-                int ny = cy + offset[dir][1];
+            for (int[] o : offset) {
+                int nx = cx + o[0];
+                int ny = cy + o[1];
                 
-                if (nx < 0 || nx >= xMax || ny < 0 || ny >= yMax) continue;
-                if (visited[ny][nx] || land[ny][nx] == 0) continue;
+                if (nx < 0 || nx >= m || ny < 0 || ny >= n || visited[ny][nx]) continue;
+                if (land[ny][nx] == 0) continue;
+                
                 q.offer(new int[]{nx, ny});
-                visitedLine.add(nx);
                 visited[ny][nx] = true;
-                oil++;
+                visitedCols.add(nx);
+                count += 1;
             }
         }
-        
-        for (Integer i : visitedLine) {
-            maxOil[i] += oil;
+        for (Integer i : visitedCols) {
+            cols[i] += count;
         }
     }
 }
