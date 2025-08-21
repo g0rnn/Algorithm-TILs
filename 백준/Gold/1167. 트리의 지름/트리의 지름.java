@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 
@@ -27,13 +28,12 @@ public class Main {
         br.close();
 
         visited = new boolean[v + 1];
-        visited[0] = true;
-        //max = -1;
+        //visited[0] = true;
         dfs(1, 0);
 
         visited = new boolean[v + 1];
-        visited[endNode] = true;
-        max = -1;
+        //visited[endNode] = true;
+        //max = -1;
         dfs(endNode, 0);
 
         System.out.println(max);
@@ -44,10 +44,11 @@ public class Main {
             max = len;
             endNode = node;
         }
+        visited[node] = true;
         for (int[] next : tree.get(node)) {
             if (visited[next[0]]) continue;
-            visited[next[0]] = true;
             dfs(next[0], len + next[1]);
+            visited[next[0]] = true;
         }
     }
 }
