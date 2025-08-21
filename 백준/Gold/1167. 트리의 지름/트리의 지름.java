@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 
@@ -29,7 +28,7 @@ public class Main {
 
         visited = new boolean[v + 1];
         visited[0] = true;
-        max = -1;
+        //max = -1;
         dfs(1, 0);
 
         visited = new boolean[v + 1];
