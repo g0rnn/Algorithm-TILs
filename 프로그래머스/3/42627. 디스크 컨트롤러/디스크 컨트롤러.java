@@ -6,7 +6,7 @@ class Solution {
     
     // 요청시간이 들어가니 끝나는 시간에서 빼면 될듯 = 반환시간
     
-    private Map<Integer, List<int[]>> timetable = new HashMap<>(); // {time : [{작업번호, 요청시각, 소요시간}, ]}
+    private TreeMap<Integer, List<int[]>> timetable = new TreeMap<>(); // {time : [{작업번호, 요청시각, 소요시간}, ]}
     public int solution(int[][] jobs) {
         PriorityQueue<Job> pq = new PriorityQueue<>((aJob, bJob) -> { // {작업 번호, 요청시각, 소요시간}
             int[] a = aJob.job; int[] b = bJob.job;
@@ -22,8 +22,8 @@ class Solution {
         Job diskJob = null;
         int cnt = 0;
         int sum = 0;
-        while (t < 300_000) {
-            if (cnt == jobs.length) break;
+        int ti = 0;
+        while (cnt < jobs.length) { 
             
             // 현재 시간에 작업이 종료되면
             if (diskJob != null && t - diskJob.startTime == diskJob.job[2]) {
@@ -37,6 +37,16 @@ class Solution {
             if (curJobs != null) {
                 for (int[] job : curJobs) pq.offer(new Job(job, t));
             }
+            
+            // 디스크가 놀고, 대기큐도 비어있으면 다음 작업이 들어오는 시간으로 점프
+            if (diskJob == null && pq.isEmpty()) {
+                Integer nextTime = timetable.ceilingKey(t);
+                if (nextTime != null) {
+                    t = nextTime;
+                    continue;
+                }
+            }
+            
             // 디스크가 작업x && 대기큐 not empty -> 높은 순위작업 poll and start
             if (diskJob == null && !pq.isEmpty()) {
                 diskJob = pq.poll();
