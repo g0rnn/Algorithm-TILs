@@ -1,10 +1,10 @@
 # [level 2] 리프 노드 수 최대화 - 468372 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/468372?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/468372) 
 
 ### 성능 요약
 
-메모리: 78.9 MB, 시간: 53.18 ms
+메모리: 74.4 MB, 시간: 3.10 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 06월 12일 11:07:49
+2026년 06월 15일 11:48:47
 
 ### 문제 설명
 
