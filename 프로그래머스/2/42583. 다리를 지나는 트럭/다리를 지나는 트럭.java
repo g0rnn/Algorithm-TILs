@@ -7,7 +7,8 @@ class Solution {
         for (int t : truck_weights) waited.offer(t);
         
         int total = 0;
-        for (int t= 0 ; t <= bridge_length * truck_weights.length+1; t++) {
+        int t = 0;
+        while (!waited.isEmpty() || !bridge.isEmpty()) {
             
             if (!bridge.isEmpty() && bridge.peek()[1] <= t) {
                 int[] out = bridge.poll();
@@ -21,9 +22,8 @@ class Solution {
                 bridge.offer(new int[] {w, endedAt});
                 total += w;
             }
-            
-            if (waited.isEmpty() && bridge.isEmpty()) return t+1;
+            t++;
         }
-        return -1;
+        return t;
     }
 }
